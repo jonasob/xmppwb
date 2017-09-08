@@ -149,10 +149,11 @@ class XMPPWebhookBridge:
         webhooks and relays the messages to XMPP."""
         if request.content_type == 'application/json':
             payload = await request.json()
-            print("Payload: %s" % payload)
         else:
             # TODO: Handle other content types
             payload = await request.post()
+
+        print("Payload: %s" % payload)
 
         # Disgard empty messages
         if payload['text'] == "":
