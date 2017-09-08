@@ -163,7 +163,7 @@ class XMPPWebhookBridge:
         logging.debug("--> Handling incoming request from token "
                       "'{}'...".format(payload['repo']['link']))
         username = payload['build']['author']
-        msg = "Build {}/{}{}: {} ({})".format(payload['repo']['owner'],
+        msg = "Build {}/{}#{}: {} ({})".format(payload['repo']['owner'],
               payload['repo']['name'], payload['build']['number'],
               payload['build']['status'], payload['build']['message'])
 
