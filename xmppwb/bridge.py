@@ -163,13 +163,12 @@ class XMPPWebhookBridge:
         logging.debug("--> Handling incoming request from token "
                       "'{}'...".format(payload['repo']['link']))
         username = payload['repo']['owner']
-        msg = "Build {}/{}{}: {} ({} by {})".format(payload['repo']['owner'],
+        msg = "{}: Build {}/{}{}: {}".format(payload['build']['author'], payload['repo']['owner'],
               payload['repo']['name'], payload['build']['number'],
-              payload['build']['status'], payload['build']['link_url'],
-              payload['build']['author'])
+              payload['build']['status'])
 
         for bridge in self.bridges:
-            bridge.handle_incoming_webhook(token, username, msg)
+            bridge.handle_incoming_webhook(username, msg)
 
         return aiohttp.web.Response()
 
@@ -258,14 +257,14 @@ class SingleBridge:
         """Returns True if this bridge contains incoming webhooks."""
         return (len(self.incoming_webhooks) != 0)
 
-    def handle_incoming_webhook(self, token, username, msg):
+    def handle_incoming_webhook(self, username, msg):
         """Handles an incoming webhook with the given token, username
         and message.
         """
         for incoming_webhook in self.incoming_webhooks:
-            if incoming_webhook['token'] != token:
+            #if incoming_webhook['token'] != token:
                 # This webhook is not handled by this bridge.
-                continue
+            #    continue
 
             if username in incoming_webhook['ignore_user']:
                 # Messages from this user are ignored.
