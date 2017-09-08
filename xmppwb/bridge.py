@@ -153,7 +153,7 @@ class XMPPWebhookBridge:
             # TODO: Handle other content types
             payload = await request.post()
 
-        print("Payload: %s" % payload)
+        logging.info("Payload: {}".format(payload))
 
         # Disgard empty messages
         if payload['text'] == "":
