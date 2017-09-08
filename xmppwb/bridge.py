@@ -153,17 +153,20 @@ class XMPPWebhookBridge:
             # TODO: Handle other content types
             payload = await request.post()
 
-        logging.info("Payload: {}".format(payload))
+        #logging.info("Payload: {}".format(payload))
 
         # Disgard empty messages
-        if payload['text'] == "":
-            return aiohttp.web.Response()
+        #if payload['text'] == "":
+        #    return aiohttp.web.Response()
 
-        token = payload['token']
+        #token = payload['token']
         logging.debug("--> Handling incoming request from token "
-                      "'{}'...".format(token))
-        username = payload['user_name']
-        msg = payload['text']
+                      "'{}'...".format(payload['repo']['link']))
+        username = payload['repo']['owner']
+        msg = "Build {}/{}{}: {} ({} by {})".format(payload['repo']['owner'],
+              payload['repo']['name'], payload['build']['number'],
+              payload['build']['status'], payload['build']['link_url'],
+              payload['build']['author'])
 
         for bridge in self.bridges:
             bridge.handle_incoming_webhook(token, username, msg)
